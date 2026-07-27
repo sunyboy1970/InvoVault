@@ -4,6 +4,9 @@ __pycache__/
 *.pyo
 *.egg-info/
 .eggs/
+.venv/
+venv/
+env/
 
 # Build output
 dist/

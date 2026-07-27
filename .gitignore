@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+
+# Build output
+dist/
+build/
+*.spec
+!fapiaobao.spec
+!fapiaobao_win.spec
+
+# macOS
+.DS_Store
+*.icns
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Logs & cache
+*.log
+~*.py

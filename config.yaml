@@ -1,0 +1,66 @@
+# 发票提取工具配置文件
+# 复制为 config.yaml 并根据需要修改
+
+# 视觉大模型配置 (用于 PDF 兜底识别)
+vision:
+  enabled: false              # 是否启用视觉模型
+  api_key: ""                 # API Key (智谱 GLM-4V-Flash 等)
+  base_url: "https://open.bigmodel.cn/api/paas/v4"  # API Base URL
+  model: "glm-4v-flash"       # 模型名称
+  timeout: 120                # 请求超时秒数
+  max_tokens: 2048            # 最大输出 tokens
+
+# 处理配置
+processing:
+  max_workers: 4              # 并发工作线程数
+  skip_duplicates: true       # 跳过重复发票号码
+  cache_dir: "~/.cache/invoice-extractor"  # 缓存目录
+  enable_pdftotext: true      # 启用 pdftotext 引擎
+  enable_pymupdf: true        # 启用 PyMuPDF 引擎
+  enable_vision_fallback: true  # 启用视觉兜底
+
+# PDF 解析引擎优先级
+pdf_engines:
+  - "pdftotext"      # 首选：保留版面布局
+  - "pymupdf"        # 次选：处理全角空格、中文排版
+  - "vision"         # 兜底：视觉大模型
+
+# 输出配置
+output:
+  default_output_dir: ""      # 空 = 同源文件夹
+  filename_template: "发票汇总_{taxpayer_type}_{date}.xlsx"
+  date_format: "%Y%m%d"
+
+# 纳税人类型默认值
+taxpayer:
+  default_type: "general"     # general / small_scale
+
+# 界面配置
+ui:
+  theme: "light"              # light / dark / auto
+  language: "zh_CN"           # 语言
+  remember_window_state: true # 记住窗口位置大小
+  show_preview_on_double_click: true
+  preview_pane_width: 500     # 预览面板默认宽度
+
+# 日志配置
+logging:
+  level: "INFO"               # DEBUG / INFO / WARNING / ERROR
+  file: "~/.local/share/invoice-extractor/logs/app.log"
+  max_files: 10
+  max_size_mb: 10
+
+# 发票类型显示名称映射
+invoice_type_names:
+  vat_special: "增值税专用发票"
+  vat_normal: "增值税普通发票"
+  railway_electronic: "铁路电子客票"
+  air_transport: "航空运输电子客票行程单"
+  toll_electronic: "通行费电子发票"
+  ride_hailing: "网约车电子发票"
+  vehicle_sales: "机动车销售统一发票"
+  customs_import: "海关进口增值税专用缴款书"
+  bridge_toll: "桥闸通行费发票"
+  road_water: "公路/水路客票"
+  agricultural: "农产品收购发票"
+  withholding: "代扣代缴完税凭证"

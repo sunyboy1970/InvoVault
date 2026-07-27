@@ -1,0 +1,92 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "invoice-extractor"
+version = "1.0.0"
+description = "中国电子发票批量识别提取工具 - 支持PDF/OFD双格式，小规模/一般纳税人双模式，GUI界面"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Invoice Extractor", email = "dev@invoice-extractor.local"}]
+keywords = ["invoice", "tax", "pdf", "ofd", "ocr", "excel", "china"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    # Core
+    "pymupdf>=1.23.0",           # PDF 解析 (fitz)
+    "pdftotext>=2.1.6",           # pdftotext 系统命令封装
+    "openpyxl>=3.1.2",            # Excel 导出
+    "requests>=2.31.0",           # HTTP 请求 (Vision API)
+    "pyyaml>=6.0.1",              # 配置文件
+    
+    # GUI
+    "PySide6>=6.6.0",             # Qt GUI 框架
+    "PySide6-WebEngine>=6.6.0",   # PDF 预览 (PDF.js)
+    
+    # OFD 解析
+    "lxml>=4.9.0",                # XML 解析
+    
+    # 并发/缓存
+    "diskcache>=5.6.3",           # 磁盘缓存
+    
+    # 可选：视觉模型
+    # "openai>=1.0.0",            # 兼容 OpenAI API 的视觉模型客户端
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-qt>=4.2.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "black>=23.0.0",
+    "mypy>=1.5.0",
+]
+vision = [
+    "openai>=1.0.0",              # GLM-4V-Flash / GPT-4V 兼容
+]
+
+[project.scripts]
+invoice-extractor = "gui.main_window:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["core*", "gui*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+select = ["E", "F", "I", "W", "UP", "B", "C4", "SIM", "T20"]
+ignore = ["E501", "SIM103"]
+fixable = ["E", "F", "I", "W", "UP", "B", "C4", "T20"]
+
+[tool.black]
+line-length = 120
+target-version = ["py39"]
+include = '\.py$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true

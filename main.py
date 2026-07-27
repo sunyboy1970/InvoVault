@@ -3,6 +3,14 @@
 import sys
 import os
 
+# ===== Windows 修复：PyMuPDF/MuPDF 首次初始化会短暂创建窗口 =====
+# 设置 dummy 视频驱动和 AGG 软件渲染，让 MuPDF 完全离屏工作
+# macOS 不存在此问题（Native Cocoa 渲染无窗口闪烁）
+if os.name == 'nt':
+    os.environ.setdefault('SDL_VIDEODRIVER', 'dummy')
+    os.environ.setdefault('PYMUPDF_DISABLE_GL', '1')
+    os.environ.setdefault('FITZ_BACKEND', 'AGG')
+
 # 确保项目根目录在路径中
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 

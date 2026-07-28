@@ -183,12 +183,12 @@ class MainWindow(QMainWindow):
         self.splitter.setSizes([900, 0])  # 初始预览隐藏
 
         # 加宽分隔条手柄（整条竖线可拖拽），鼠标悬停变色提示
-        self.splitter.setHandleWidth(8)
+        self.splitter.setHandleWidth(4)
         self.splitter.setStyleSheet("""
             QSplitter::handle {
                 background: #bdc3c7;
                 border: none;
-                width: 8px;
+                width: 4px;
             }
             QSplitter::handle:hover {
                 background: #3498db;
